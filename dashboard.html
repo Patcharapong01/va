@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:linear-gradient(135deg,#FFF0F5,#FBEFEF);
+    overflow:hidden;
+}
+
+/* รูปลอย */
+.center-image{
+    max-width:350px;
+    width:100%;
+    border-radius:25px;
+    box-shadow:0 15px 35px rgba(255,105,180,0.25);
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-12px);}
+    100%{transform:translateY(0px);}
+}
+
+/* หัวใจลอย */
+.heart{
+    position:absolute;
+    color:#ff99cc;
+    animation:hearts 6s linear infinite;
+    opacity:0.4;
+}
+
+@keyframes hearts{
+    0%{transform:translateY(100vh) scale(0.5);}
+    100%{transform:translateY(-10vh) scale(1.2);}
+}
+
+/* ปุ่มหวาน */
+.btn-love{
+    background:#ffb6d9;
+    border:none;
+    border-radius:30px;
+    padding:10px 25px;
+    transition:0.3s;
+}
+
+.btn-love:hover{
+    background:#ff99cc;
+    transform:scale(1.1);
+}
+</style>
+</head>
+
+<body class="d-flex justify-content-center align-items-center vh-100">
+
+<!-- หัวใจลอย -->
+<div class="heart" style="left:20%;">💗</div>
+<div class="heart" style="left:50%; animation-delay:2s;">💕</div>
+<div class="heart" style="left:75%; animation-delay:4s;">💖</div>
+
+<div class="text-center">
+    <h2 class="mb-3">ฮายๆ 💖</h2>
+
+    <img src="IMG_2229.jpg" class="center-image">
+
+    <p id="typingText" class="mt-4 text-muted fs-5"></p>
+
+    <button class="btn btn-love mt-3" onclick="loveMessage()">
+        กดเพื่อเอาดอกไม้มาให้เอ็ม 💌
+    </button>
+</div>
+
+<script>
+// พิมพ์ทีละตัว
+const text = "ดอกไม้หลุดมือไปเเล้ว 💕";
+let i = 0;
+
+function typeWriter() {
+    if (i < text.length) {
+        document.getElementById("typingText").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 60);
+    }
+}
+
+typeWriter();
+
+// ปุ่มเซอร์ไพรส์
+function loveMessage(){
+    window.location.href = "surprise.html";
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

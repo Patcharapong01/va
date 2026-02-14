@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#FCF8F8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    overflow:hidden;
+}
+
+.flower-top{
+    position:fixed;
+    top:0;
+    right:0;
+    width:300px;
+    max-width:45%;
+    pointer-events:none;
+    animation:float 6s ease-in-out infinite;
+}
+
+.flower-corner{
+    position:fixed;
+    top:0;
+    left:0;
+    width:220px;
+    max-width:40%;
+    pointer-events:none;
+    animation:float 7s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(10px);}
+    100%{transform:translateY(0px);}
+}
+
+.box{
+    width:90%;
+    max-width:320px;
+    padding:30px 25px;
+    background:#FBEFEF;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    border-radius:20px;
+    text-align:center;
+    position:relative;
+    z-index:2;
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+.shake{
+    animation:shake 0.4s;
+}
+
+@keyframes shake{
+    0%{transform:translateX(0);}
+    25%{transform:translateX(-5px);}
+    50%{transform:translateX(5px);}
+    75%{transform:translateX(-5px);}
+    100%{transform:translateX(0);}
+}
+
+h2{ margin-bottom:20px; }
+
+input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:10px;
+    border:none;
+    box-sizing:border-box;
+    font-size:14px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    background:#F9DFDF;
+    color:black;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{ transform:scale(1.05); }
+button:active{ transform:scale(0.95); }
+
+.error{
+    color:red;
+    font-size:14px;
+    height:18px;
+    margin-bottom:5px;
+}
+
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:99;
+}
+
+.popup-content{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:90%;
+    max-width:300px;
+    animation:fadeIn 0.4s ease;
+}
+
+.popup-content img{
+    width:120px;
+    margin-bottom:15px;
+}
+</style>
+</head>
+
+<body>
+
+<img src="5-removebg-preview.png" class="flower-top">
+<img src="4-removebg-preview.png" class="flower-corner">
+
+<div class="box">
+<h2>Login</h2>
+<p id="error" class="error"></p>
+
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<button onclick="checkLogin()">เข้าสู่ระบบ</button>
+</div>
+
+<!-- 🔒 Popup -->
+<div id="lockPopup" class="popup">
+    <div class="popup-content">
+        <img src="IMG_2128.jpg">
+        <h3>ใส่รหัสผิดครบ 5 ครั้งแล้ว 😠</h3>
+        <p>กรุณาลองใหม่ภายหลัง ถ้าไม่รู้ถามคนในรูป</p>
+        <button onclick="closePopup()">ปิด</button>
+    </div>
+</div>
+
+<script>
+let wrongCount = 0;
+
+function checkLogin(){
+    var user = document.getElementById("username").value;
+    var pass = document.getElementById("password").value;
+    var box = document.querySelector(".box");
+
+    if(user === "Supassorn" && pass === "0832943775"){
+        alert("เข้าสู่ระบบสำเร็จ 💗");
+        window.location.href = "dashborad.html";
+    }else{
+        wrongCount++;
+        document.getElementById("error").innerText =
+            "Username หรือ Password ไม่ถูกต้อง (" + wrongCount + "/5)";
+        
+        box.classList.add("shake");
+        setTimeout(() => box.classList.remove("shake"), 400);
+
+        if(wrongCount >= 5){
+            document.getElementById("lockPopup").style.display = "flex";
+        }
+    }
+}
+
+function closePopup(){
+    document.getElementById("lockPopup").style.display = "none";
+    wrongCount = 0;
+}
+
+document.addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        checkLogin();
+    }
+});
+</script>
+
+</body>
+</html>
