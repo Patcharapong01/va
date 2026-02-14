@@ -10,7 +10,7 @@
 <style>
 body{
     background:linear-gradient(135deg,#ffe6f2,#fff0f5);
-    overflow:hidden;
+    margin:0;
 }
 
 /* การ์ด */
@@ -19,13 +19,11 @@ body{
     border-radius:25px;
     box-shadow:0 15px 40px rgba(255,105,180,0.3);
     animation:fadeIn 1s ease;
-    position:relative;
-    z-index:2;
     background:white;
 }
 
 @keyframes fadeIn{
-    from{opacity:0; transform:scale(0.8);}
+    from{opacity:0; transform:scale(0.9);}
     to{opacity:1; transform:scale(1);}
 }
 
@@ -34,8 +32,11 @@ body{
     border-radius:20px;
     overflow:hidden;
 }
+
 .carousel img{
-    height:400px;
+    width:100%;
+    height:60vh;
+    max-height:420px;
     object-fit:cover;
 }
 
@@ -45,36 +46,31 @@ body{
     bottom:0;
     left:0;
     width:100%;
-    height:50vh; 
+    height:40vh; 
     background:url("2-removebg-preview.png") repeat-x bottom;
     background-size:auto 100%;
     pointer-events:none;
-    z-index:1;
+    z-index:0;
 }
 
 /* ดอกไม้มุมบน */
 .flower{
     position:fixed;
-    width:200px;
+    width:160px;
     pointer-events:none;
-    z-index:1;
+    z-index:0;
     opacity:0.9;
 }
 .flower-top-left{ top:0; left:0; }
 .flower-top-right{ top:0; right:0; transform:scaleX(-1); }
 
-/* 🎵 กล่องเพลงใหม่ */
+/* 🎵 กล่องเพลง */
 .music-player{
     margin-top:25px;
     padding:20px;
     border-radius:25px;
     background:linear-gradient(145deg,#fff0f5,#ffe6f2);
     box-shadow:0 10px 30px rgba(255,105,180,0.35);
-    transition:0.3s;
-}
-
-.music-player:hover{
-    transform:translateY(-3px);
 }
 
 .music-title{
@@ -92,11 +88,6 @@ body{
     height:60px;
     border-radius:50%;
     box-shadow:0 6px 15px rgba(255,105,180,0.4);
-    transition:0.3s;
-}
-
-.music-btn:hover{
-    transform:scale(1.1);
 }
 
 .progress-bar-custom{
@@ -111,48 +102,78 @@ body{
     height:100%;
     width:0%;
     background:#ff4d88;
-    transition:width 0.2s linear;
+}
+
+/* 📱 Responsive มือถือ */
+@media (max-width:768px){
+
+    body{
+        padding:15px;
+    }
+
+    .carousel img{
+        height:45vh;
+    }
+
+    .flower{
+        width:100px;
+    }
+
+    .bottom-flowers{
+        height:25vh;
+    }
+
 }
 </style>
 </head>
 
-<body class="d-flex justify-content-center align-items-center vh-100">
+<body class="d-flex justify-content-center align-items-start py-4">
 
 <img src="ถือดอกไม้.png" class="flower flower-top-left">
 <img src="ถือดอกไม้.png" class="flower flower-top-right">
 <div class="bottom-flowers"></div>
 
-<div class="card card-love p-4 text-center col-md-6">
+<div class="card card-love p-4 text-center w-100" style="max-width:600px; z-index:2;">
 
 <h2 class="mb-4">Hello Valentine's day 💗</h2>
 
 <div id="loveCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
 <div class="carousel-inner">
+
 <div class="carousel-item active">
 <img src="IMG_2186.jpg" class="d-block w-100">
 </div>
+
 <div class="carousel-item">
 <img src="IMG_2189.jpg" class="d-block w-100">
 </div>
+
 <div class="carousel-item">
 <img src="DFB46090-3357-42CB-B8B8-FE82484CEC44.jpg" class="d-block w-100">
 </div>
+
 <div class="carousel-item">
 <img src="temp_image_5AEAA09F-2FAA-4770-9330-6E5E4E719EE4.jpg" class="d-block w-100">
 </div>
+
 <div class="carousel-item">
 <img src="C196F874-61BC-4CF2-924D-A4FBE9F5893B.jpg" class="d-block w-100">
 </div>
+
 <div class="carousel-item">
 <img src="lp_image (1).jpg" class="d-block w-100">
 </div>
+
 </div>
+
 <button class="carousel-control-prev" type="button" data-bs-target="#loveCarousel" data-bs-slide="prev">
 <span class="carousel-control-prev-icon"></span>
 </button>
+
 <button class="carousel-control-next" type="button" data-bs-target="#loveCarousel" data-bs-slide="next">
 <span class="carousel-control-next-icon"></span>
 </button>
+
 </div>
 
 <p class="fs-5">ดอกไม้ไม่ได้หลุดหรอก 🌸</p>
@@ -162,7 +183,7 @@ body{
 กลับไปหน้าหลัก
 </a>
 
-<!-- 🎵 Music Player ใหม่ -->
+<!-- 🎵 Music Player -->
 <div class="music-player">
 
 <div class="music-title">🎶 เพลงของเรา</div>
@@ -202,24 +223,21 @@ const progressFill = document.getElementById("progressFill");
 const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
 
-music.volume = 0; // เริ่มเสียงที่ 0
+music.volume = 0;
 
-// 🔥 เล่นอัตโนมัติ + ค่อย ๆ ดัง
 window.addEventListener("load", () => {
     music.play().then(()=>{
         fadeInVolume();
         btn.innerHTML="⏸️";
     }).catch(()=>{
-        // ถ้า browser ไม่ให้ autoplay
         btn.innerHTML="💖";
     });
 });
 
-// 🌸 ฟังก์ชันเพิ่มเสียงทีละนิด
 function fadeInVolume(){
     let vol = 0;
     const fade = setInterval(()=>{
-        if(vol < 0.5){ // ระดับเสียงสูงสุดที่ต้องการ
+        if(vol < 0.5){
             vol += 0.02;
             music.volume = vol;
         }else{
@@ -259,7 +277,6 @@ music.addEventListener("timeupdate",()=>{
     currentTimeEl.textContent=formatTime(music.currentTime);
 });
 </script>
-
 
 </body>
 </html>
