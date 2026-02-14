@@ -107,25 +107,11 @@ body{
     background:#ff4d88;
 }
 
-/* 📱 ปรับเฉพาะมือถือ */
 @media (max-width:768px){
-
-    body{
-        padding:15px;
-    }
-
-    .carousel img{
-        height:45vh;
-    }
-
-    .flower{
-        width:90px;
-    }
-
-    .bottom-flowers{
-        height:20vh;
-    }
-
+    body{ padding:15px; }
+    .carousel img{ height:45vh; }
+    .flower{ width:90px; }
+    .bottom-flowers{ height:20vh; }
 }
 </style>
 </head>
@@ -186,7 +172,6 @@ body{
 กลับไปหน้าหลัก
 </a>
 
-<!-- 🎵 Music Player -->
 <div class="music-player">
 
 <div class="music-title">🎶 เพลงของเรา</div>
@@ -228,14 +213,20 @@ const durationEl = document.getElementById("duration");
 
 music.volume = 0;
 
-window.addEventListener("load", () => {
-    music.play().then(()=>{
+/* ✅ แก้ autoplay มือถือ */
+let started = false;
+
+function startMusicOnce(){
+    if(!started){
+        music.play();
         fadeInVolume();
         btn.innerHTML="⏸️";
-    }).catch(()=>{
-        btn.innerHTML="💖";
-    });
-});
+        started = true;
+    }
+}
+
+document.addEventListener("click", startMusicOnce);
+document.addEventListener("touchstart", startMusicOnce);
 
 function fadeInVolume(){
     let vol = 0;
